@@ -1,4 +1,7 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NbThemeModule, NbLayoutModule, NbInputModule, NbCardModule, NbIconModule } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 import { MoviesRoutingModule } from './movies-routing.module';
 import { MoviesComponent } from './components/movies/movies.component';
@@ -16,7 +19,15 @@ import { SearchFormComponent } from './components/search-form/search-form.compon
     SearchFormComponent
   ],
   imports: [
-    MoviesRoutingModule
+    FormsModule,
+    MoviesRoutingModule,
+    
+    NbThemeModule.forRoot({ name: 'default' }),
+    NbLayoutModule,
+    NbInputModule,
+    NbCardModule,
+    NbIconModule,
+    NbEvaIconsModule
   ],
   exports: [MoviesComponent],
   providers: []

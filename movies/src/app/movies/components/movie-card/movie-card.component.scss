@@ -1,0 +1,25 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20vw;
+  min-width: 15vw;
+  background-color: white;
+  border: 1px #c2c2d6 solid;
+  border-radius: 3px;
+  margin: 0 1rem 2rem 1rem;
+  padding: 0.5rem;
+
+  .poster {
+      img {
+          max-width: 100%;
+      }
+  }
+
+  .info {
+      .rating {
+          font-weight: bold;
+      }
+  }
+}
