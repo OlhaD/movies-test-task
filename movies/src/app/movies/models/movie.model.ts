@@ -4,4 +4,5 @@ export interface Movie {
     year: number;
     poster: string;
     rating: string;
+    isBookmarked: boolean;
  }

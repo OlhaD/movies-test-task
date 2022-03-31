@@ -1,26 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Movie } from '../../models/movie.model';
+import { MovieService } from '../../services/movie.service';
 
 @Component({
   selector: 'app-movie-card',
   templateUrl: './movie-card.component.html',
-  styleUrls: ['./movie-card.component.scss']
+  styleUrls: ['./movie-card.component.scss'],
 })
 export class MovieCardComponent implements OnInit {
-  testMovie: Movie = {
-    id: "tt13175494",
-    title: "Estonia - funnet som endrer alt",
-    year: 2020,
-    poster: "https://m.media-amazon.com/images/M/MV5BMDhhZTJhNTgtOGZmNy00MzZhLWI1M2EtNTRkMDI4MTQ3ZTdhXkEyXkFqcGdeQXVyMjUwMzU2Mjc@._V1_SX300.jpg",
-    rating: "7.3"
+  @Input() movie: Movie;
+  isBookmarked: boolean;
+
+  constructor(private movieService: MovieService) {}
+
+  ngOnInit(): void {}
+
+  onBookmark = (id: string, bookmark: boolean) => {
+    bookmark
+      ? this.movieService.bookmarkMovie(id)
+      : this.movieService.unBookmarkMovie(id);
+
+    this.movie.isBookmarked = bookmark;
   };
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-  onBookmark = () => {
-    
-  }
 }

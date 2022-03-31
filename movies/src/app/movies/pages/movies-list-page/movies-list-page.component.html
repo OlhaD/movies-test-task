@@ -1,16 +1,7 @@
 <div class="search-form">
-    <app-search-form></app-search-form>
+    <app-search-form (onSearch)="showMovies($event)"></app-search-form>
 </div>
 
 <div class="movies">
-    <app-movie-card></app-movie-card>
-    <app-movie-card></app-movie-card>
-    <app-movie-card></app-movie-card>
-    <app-movie-card></app-movie-card>
-    <app-movie-card></app-movie-card>
-    <app-movie-card></app-movie-card>
-    <app-movie-card></app-movie-card>
-    <app-movie-card></app-movie-card>
-    <app-movie-card></app-movie-card>
-    <app-movie-card></app-movie-card>
+    <app-movie-card *ngFor="let movie of movies" [movie]="movie"></app-movie-card>
 </div>
