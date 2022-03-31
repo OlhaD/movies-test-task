@@ -1,1 +1,14 @@
+<header>
+    <div class="view-bookmarked">
+        <a *ngIf="isHomePage" routerLink="/bookmarked">
+            <nb-icon icon="star" status="warning" class="bookmarked-icon"></nb-icon> 
+            View bookmarked movies
+        </a>
+        <a *ngIf="!isHomePage" routerLink="/">
+            <nb-icon icon="star" status="warning" class="bookmarked-icon"></nb-icon> 
+            Home
+        </a>
+    </div>
+</header>
+
 <router-outlet></router-outlet>

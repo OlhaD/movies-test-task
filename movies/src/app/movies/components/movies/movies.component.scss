@@ -1,0 +1,15 @@
+header {
+  .view-bookmarked {
+    margin-bottom: 1rem;
+
+    a {
+      cursor: pointer;
+      text-decoration: none;
+      color: black;
+
+      .bookmarked-icon {
+        margin-right: 1rem;
+      }
+    }
+  }
+}
