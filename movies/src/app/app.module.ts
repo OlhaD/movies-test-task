@@ -14,12 +14,12 @@ import { MoviesModule } from './movies/movies.module';
   ],
   imports: [
     BrowserModule,
+    MoviesModule,
     AppRoutingModule,
     NoopAnimationsModule,
     NbThemeModule.forRoot({ name: 'default' }),
     NbLayoutModule,
-    NbEvaIconsModule,
-    MoviesModule
+    NbEvaIconsModule    
   ],
   providers: [],
   bootstrap: [AppComponent]
