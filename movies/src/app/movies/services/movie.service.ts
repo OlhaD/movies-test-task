@@ -23,31 +23,36 @@ export class MovieService {
             throw new Error(this.getErrorMessage(response.Error));
           }
 
-          const list = response.Search;
-          const bookmardedMovies = this.getBookmardedMovies();
-          for (let movieDto of list) {
-            const isBookmarked = this.isMovieBookmarked(
-              bookmardedMovies,
-              movieDto.imdbID
-            );
-            this.getMovieRating(movieDto.imdbID).subscribe((rating) => {
-              movieDto.imdbRating = rating;
-
-              let movie: Movie = {
-                id: movieDto.imdbID,
-                title: movieDto.Title,
-                year: movieDto.Year,
-                poster: movieDto.Poster,
-                rating: movieDto.imdbRating,
-                isBookmarked: isBookmarked,
-              };
-              movies.push(movie);
-            });
-          }
-
-          return movies;
+          return this.getMoviesWithDetails(response.Search);
         })
-      )
+      );
+  }
+
+  // Get Movie with all details.
+  // Rating is taken from another API. Example: http://www.omdbapi.com/?apikey=[yourkey]&i=[id]
+  // "isBookmarked" is taken from LocalStorage. It contains list of bookmarked movies.
+  private getMoviesWithDetails(moviesResp: any): Movie[] {
+    let movies: Movie[] = [];
+    const bookmardedMovies = this.getBookmardedMovies();
+
+    for (let movieDto of moviesResp) {
+      const isBookmarked = this.isMovieBookmarked(
+        bookmardedMovies,
+        movieDto.imdbID
+      );
+      this.getMovieRating(movieDto.imdbID).subscribe((rating) => {
+        movies.push({
+          id: movieDto.imdbID,
+          title: movieDto.Title,
+          year: movieDto.Year,
+          poster: movieDto.Poster,
+          rating: rating,
+          isBookmarked: isBookmarked,
+        });
+      });
+    }
+
+    return movies;
   }
 
   private isMovieBookmarked(

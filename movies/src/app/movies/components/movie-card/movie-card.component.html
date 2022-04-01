@@ -1,6 +1,6 @@
 <div class="card">
     <div class="poster">
-        <img [src]="movie.poster" />
+        <img *ngIf="movie.poster !== 'N/A'" [src]="movie.poster" />
     </div>
     <div class="info">
         <h6>{{movie.title}}</h6>
