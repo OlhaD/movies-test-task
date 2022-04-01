@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { Movie } from '../models/movie.model';
 
 @Injectable()
@@ -9,38 +9,45 @@ export class MovieService {
   private configUrl = 'https://omdbapi.com/';
   private apiKey = '7ed40251';
   private bookmarkedMoviesLocalStorageKey = 'bookmarkedMovies';
+  private defaultErrorMessage = 'Unexpected error occured';
 
   constructor(private http: HttpClient) {}
 
-  public getMovies(title: string): Movie[] {
+  public getMovies(title: string): Observable<Movie[]> {
     let movies: Movie[] = [];
-    this.http
+    return this.http
       .get(`${this.configUrl}?apikey=${this.apiKey}&s=${title}`)
-      .subscribe((x: any) => {
-        const list = x.Search;
-        const bookmardedMovies = this.getBookmardedMovies();
-        for (let movieDto of list) {
-          const isBookmarked = this.isMovieBookmarked(
-            bookmardedMovies,
-            movieDto.imdbID
-          );
-          this.getMovieRating(movieDto.imdbID).subscribe((rating) => {
-            movieDto.imdbRating = rating;
+      .pipe(
+        map((response: any) => {
+          if (response.Response === 'False') {
+            throw new Error(this.getErrorMessage(response.Error));
+          }
 
-            let movie: Movie = {
-              id: movieDto.imdbID,
-              title: movieDto.Title,
-              year: movieDto.Year,
-              poster: movieDto.Poster,
-              rating: movieDto.imdbRating,
-              isBookmarked: isBookmarked,
-            };
-            movies.push(movie);
-          });
-        }
-      });
+          const list = response.Search;
+          const bookmardedMovies = this.getBookmardedMovies();
+          for (let movieDto of list) {
+            const isBookmarked = this.isMovieBookmarked(
+              bookmardedMovies,
+              movieDto.imdbID
+            );
+            this.getMovieRating(movieDto.imdbID).subscribe((rating) => {
+              movieDto.imdbRating = rating;
 
-    return movies;
+              let movie: Movie = {
+                id: movieDto.imdbID,
+                title: movieDto.Title,
+                year: movieDto.Year,
+                poster: movieDto.Poster,
+                rating: movieDto.imdbRating,
+                isBookmarked: isBookmarked,
+              };
+              movies.push(movie);
+            });
+          }
+
+          return movies;
+        })
+      )
   }
 
   private isMovieBookmarked(
@@ -100,5 +107,20 @@ export class MovieService {
     }
 
     return arr;
+  }
+
+  // Error message can only have predefined value.
+  private getErrorMessage(message: string) {
+    switch (message) {
+      case 'Movie not found!': {
+        return message;
+      }
+      case 'Too many results.': {
+        return message;
+      }
+      default: {
+        return this.defaultErrorMessage;
+      }
+    }
   }
 }

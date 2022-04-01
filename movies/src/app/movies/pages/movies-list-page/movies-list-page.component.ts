@@ -9,11 +9,21 @@ import { MovieService } from '../../services/movie.service';
 })
 export class MoviesListPageComponent implements OnInit {
   movies: Movie[] = [];
+  errorMessage: string;
+
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {}
 
   showMovies = (searchText: string) => {
-    this.movies = this.movieService.getMovies(searchText);
+    this.movieService.getMovies(searchText).subscribe({
+      next: (res: any) => {
+        this.movies = res;
+        this.errorMessage = "";
+      },
+      error: (err: any) => {
+        this.errorMessage = err.message;
+      },
+    });
   };
 }
