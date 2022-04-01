@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Movie } from '../../models/movie.model';
 import { MovieService } from '../../services/movie.service';
 
@@ -9,16 +9,20 @@ import { MovieService } from '../../services/movie.service';
 })
 export class MovieCardComponent implements OnInit {
   @Input() movie: Movie;
+  @Output() onUnbookmarked: EventEmitter<string> = new EventEmitter<string>();
   isBookmarked: boolean;
 
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {}
 
-  onBookmark = (id: string, bookmark: boolean) => {
-    bookmark
-      ? this.movieService.bookmarkMovie(id)
-      : this.movieService.unBookmarkMovie(id);
+  onBookmark = (movie: Movie, bookmark: boolean) => {
+    if (bookmark) {
+      this.movieService.bookmarkMovie(movie);
+    } else {
+      this.movieService.unBookmarkMovie(movie.id);
+      this.onUnbookmarked.emit(movie.id);
+    }
 
     this.movie.isBookmarked = bookmark;
   };

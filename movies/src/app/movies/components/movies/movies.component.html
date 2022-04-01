@@ -1,13 +1,20 @@
 <header>
-    <div class="view-bookmarked">
-        <a *ngIf="isHomePage" routerLink="/bookmarked">
-            <nb-icon icon="star" status="warning" class="bookmarked-icon"></nb-icon> 
-            View bookmarked movies
-        </a>
-        <a *ngIf="!isHomePage" routerLink="/">
-            <nb-icon icon="star" status="warning" class="bookmarked-icon"></nb-icon> 
-            Home
-        </a>
+    <div class="container">
+        <div class="title">
+            <h4 *ngIf="isHomePage">Search</h4>
+            <h4 *ngIf="!isHomePage">Bookmarked Movies</h4>
+        </div>
+
+        <div class="view-bookmarked">
+            <a *ngIf="isHomePage" routerLink="/bookmarked">
+                <nb-icon icon="star" status="warning" class="bookmarked-icon"></nb-icon>
+                View bookmarked movies
+            </a>
+            <a *ngIf="!isHomePage" routerLink="/">
+                <nb-icon icon="star" status="warning" class="bookmarked-icon"></nb-icon>
+                Home
+            </a>
+        </div>
     </div>
 </header>
 

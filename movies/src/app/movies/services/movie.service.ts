@@ -1,17 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { from, Observable, of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Movie } from '../models/movie.model';
-import { MovieDto } from './movieDto';
 
 @Injectable()
 export class MovieService {
   private configUrl = 'https://omdbapi.com/';
   private apiKey = '7ed40251';
-  private bookmarkedMoviesLocalStorageKey = 'bookmarkedMoviesIds';
-  private localStorageSeparator = ',';
-  private movies: Movie[] = [];
+  private bookmarkedMoviesLocalStorageKey = 'bookmarkedMovies';
 
   constructor(private http: HttpClient) {}
 
@@ -21,10 +18,10 @@ export class MovieService {
       .get(`${this.configUrl}?apikey=${this.apiKey}&s=${title}`)
       .subscribe((x: any) => {
         const list = x.Search;
-        const bookmardedMoviesIds = this.getBookmardedMoviesIds();
+        const bookmardedMovies = this.getBookmardedMovies();
         for (let movieDto of list) {
           const isBookmarked = this.isMovieBookmarked(
-            bookmardedMoviesIds,
+            bookmardedMovies,
             movieDto.imdbID
           );
           this.getMovieRating(movieDto.imdbID).subscribe((rating) => {
@@ -47,10 +44,10 @@ export class MovieService {
   }
 
   private isMovieBookmarked(
-    bookmardedMoviesIds: string[],
+    bookmardedMovies: Movie[],
     movieId: string
   ): boolean {
-    return bookmardedMoviesIds.includes(movieId);
+    return bookmardedMovies.findIndex((x) => x.id === movieId) > -1;
   }
 
   private getMovieRating(id: string): Observable<string> {
@@ -63,17 +60,19 @@ export class MovieService {
       );
   }
 
-  public bookmarkMovie(id: string): void {
-    let bookmardedMovies: string[] = this.getBookmardedMoviesIds();
+  public bookmarkMovie(movie: Movie): void {
+    let bookmardedMovies: Movie[] = this.getBookmardedMovies();
 
-    bookmardedMovies.push(id);
+    movie.isBookmarked = true;
+
+    bookmardedMovies.push(movie);
     localStorage.setItem(
       this.bookmarkedMoviesLocalStorageKey,
-      bookmardedMovies.toString()
+      JSON.stringify(bookmardedMovies)
     );
   }
 
-  private getBookmardedMoviesIds(): string[] {
+  public getBookmardedMovies(): Movie[] {
     let bookmarkedMoviesStr = localStorage.getItem(
       this.bookmarkedMoviesLocalStorageKey
     );
@@ -81,21 +80,21 @@ export class MovieService {
       return [];
     }
 
-    return bookmarkedMoviesStr.split(this.localStorageSeparator);
+    return JSON.parse(bookmarkedMoviesStr);
   }
 
   public unBookmarkMovie(id: string): void {
-    let bookmardedMoviesIds: string[] = this.getBookmardedMoviesIds();
-    bookmardedMoviesIds = this.removeFromArray(bookmardedMoviesIds, id);    
+    let bookmardedMovies: Movie[] = this.getBookmardedMovies();
+    bookmardedMovies = this.removeFromArray(bookmardedMovies, id);
 
     localStorage.setItem(
       this.bookmarkedMoviesLocalStorageKey,
-      bookmardedMoviesIds.toString()
+      JSON.stringify(bookmardedMovies)
     );
   }
 
-  private removeFromArray(arr: string[], element: string): string[]{
-    const index = arr.indexOf(element, 0);
+  private removeFromArray(arr: Movie[], id: string): Movie[] {
+    const index = arr.findIndex((x) => x.id === id);
     if (index > -1) {
       arr.splice(index, 1);
     }

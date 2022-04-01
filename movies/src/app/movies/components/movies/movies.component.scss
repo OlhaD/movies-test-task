@@ -1,14 +1,19 @@
 header {
-  .view-bookmarked {
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 1rem;
 
-    a {
-      cursor: pointer;
-      text-decoration: none;
-      color: black;
+    .view-bookmarked {
+      a {
+        cursor: pointer;
+        text-decoration: none;
+        color: black;
 
-      .bookmarked-icon {
-        margin-right: 1rem;
+        .bookmarked-icon {
+          margin-right: 0.5rem;
+        }
       }
     }
   }
