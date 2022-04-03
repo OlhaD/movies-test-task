@@ -10,6 +10,7 @@ export class MovieService {
   private configUrl = 'https://omdbapi.com/';
   private apiKey = '7ed40251';
   private bookmarkedMoviesLocalStorageKey = 'bookmarkedMovies';
+  private notFoundErrorMessage = 'Movies not found!';
   private defaultErrorMessage = 'Unexpected error occured.';
 
   constructor(private http: HttpClient) {}
@@ -126,7 +127,7 @@ export class MovieService {
   public getPublicErrorMessage(message: string): string {
     switch (message) {
       case 'Movie not found!': {
-        return message;
+        return this.notFoundErrorMessage;
       }
       case 'Too many results.': {
         return message;
