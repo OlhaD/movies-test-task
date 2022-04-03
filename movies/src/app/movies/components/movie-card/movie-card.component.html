@@ -8,9 +8,11 @@
         <p>IMDB: <label class="rating">{{movie.rating}}</label></p>
         <div class="bookmark">
             <nb-icon *ngIf="!movie.isBookmarked" icon="star-outline" status="warning" (click)="onBookmark(movie, true)"
-                [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+                [options]="{ animation: { type: 'zoom' } }" nbTooltip="Bookmark movie" nbTooltipPlacement="right"
+                nbTooltipStatus="control"></nb-icon>
             <nb-icon *ngIf="movie.isBookmarked" icon="star" status="warning" (click)="onBookmark(movie, false)"
-                [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+                [options]="{ animation: { type: 'zoom' } }" nbTooltip="Movie is bookmarked" nbTooltipPlacement="right"
+                nbTooltipStatus="control"></nb-icon>
         </div>
     </div>
 </div>
