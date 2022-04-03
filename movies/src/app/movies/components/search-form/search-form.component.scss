@@ -1,6 +1,6 @@
-.search-card {
-   
+$color: grey;
 
+.search-card {
   .search-container {
     display: flex;
 
@@ -10,7 +10,7 @@
 
     nb-icon {
       font-size: 3rem;
-      color: grey;
+      color: $color;
     }
   }
 }

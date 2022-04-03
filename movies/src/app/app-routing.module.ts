@@ -3,12 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './shared/components/page-not-found/pageNotFound.component';
 
 const routes: Routes = [
-  { path: '',   redirectTo: '/', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '', redirectTo: '/', pathMatch: 'full' },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
+// The root routing module
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

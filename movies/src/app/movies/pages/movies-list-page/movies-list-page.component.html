@@ -6,6 +6,6 @@
     <label>{{errorMessage}}</label>
 </div>
 
-<div class="movies">
+<div *ngIf="!errorMessage" class="movies" [nbSpinner]="isLoading" nbSpinnerStatus="basic" nbSpinnerMessage="Loading...">
     <app-movie-card *ngFor="let movie of movies" [movie]="movie"></app-movie-card>
 </div>

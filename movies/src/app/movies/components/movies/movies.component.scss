@@ -1,3 +1,5 @@
+$textColor: rgb(0,0,0);
+
 header {
   .container {
     display: flex;
@@ -9,7 +11,7 @@ header {
       a {
         cursor: pointer;
         text-decoration: none;
-        color: black;
+        color: $textColor;
 
         .bookmarked-icon {
           margin-right: 0.5rem;

@@ -9,4 +9,5 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   justify-content: space-between;
   grid-gap: 20px;
+  min-height: 50vh;
 }

@@ -3,5 +3,6 @@
 </div>
 
 <div class="movies">
-    <app-movie-card *ngFor="let movie of movies" [movie]="movie" (onUnbookmarked)="refreshMovies()"></app-movie-card>
+    <app-movie-card *ngFor="let movie of movies" [movie]="movie" (onUnbookmarked)="initBookmarkedMovies()">
+    </app-movie-card>
 </div>

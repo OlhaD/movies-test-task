@@ -1,6 +1,13 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NbThemeModule, NbLayoutModule, NbInputModule, NbCardModule, NbIconModule } from '@nebular/theme';
+import {
+  NbThemeModule,
+  NbLayoutModule,
+  NbInputModule,
+  NbCardModule,
+  NbIconModule,
+  NbSpinnerModule,
+} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -13,28 +20,30 @@ import { MovieCardComponent } from './components/movie-card/movie-card.component
 import { SearchFormComponent } from './components/search-form/search-form.component';
 import { MovieService } from './services/movie.service';
 
+// Module defines functionality related to movies
 @NgModule({
   declarations: [
     MoviesComponent,
     MoviesListPageComponent,
     MoviesBookmarkedPageComponent,
     MovieCardComponent,
-    SearchFormComponent
+    SearchFormComponent,
   ],
   imports: [
     FormsModule,
     HttpClientModule,
     CommonModule,
     MoviesRoutingModule,
-    
+
+    NbSpinnerModule,
     NbThemeModule.forRoot({ name: 'default' }),
     NbLayoutModule,
     NbInputModule,
     NbCardModule,
     NbIconModule,
-    NbEvaIconsModule
+    NbEvaIconsModule,
   ],
   exports: [MoviesComponent],
-  providers: [MovieService]
+  providers: [MovieService],
 })
-export class MoviesModule { }
+export class MoviesModule {}

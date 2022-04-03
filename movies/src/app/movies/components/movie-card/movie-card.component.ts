@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Movie } from '../../models/movie.model';
 import { MovieService } from '../../services/movie.service';
 
+// Component for the card with movie details
 @Component({
   selector: 'app-movie-card',
   templateUrl: './movie-card.component.html',
@@ -16,6 +17,7 @@ export class MovieCardComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  // Event handler for bookmarking/unbookmarking the movie
   onBookmark = (movie: Movie, bookmark: boolean) => {
     if (bookmark) {
       this.movieService.bookmarkMovie(movie);

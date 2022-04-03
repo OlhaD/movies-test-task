@@ -7,8 +7,10 @@
         <p>{{movie.year}}</p>
         <p>IMDB: <label class="rating">{{movie.rating}}</label></p>
         <div class="bookmark">
-            <nb-icon *ngIf="!movie.isBookmarked" icon="star-outline" status="warning" (click)="onBookmark(movie, true)" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
-            <nb-icon *ngIf="movie.isBookmarked" icon="star" status="warning" (click)="onBookmark(movie, false)" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+            <nb-icon *ngIf="!movie.isBookmarked" icon="star-outline" status="warning" (click)="onBookmark(movie, true)"
+                [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+            <nb-icon *ngIf="movie.isBookmarked" icon="star" status="warning" (click)="onBookmark(movie, false)"
+                [options]="{ animation: { type: 'zoom' } }"></nb-icon>
         </div>
     </div>
 </div>

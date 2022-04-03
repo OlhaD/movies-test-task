@@ -2,23 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { Movie } from '../../models/movie.model';
 import { MovieService } from '../../services/movie.service';
 
+// Page component with list of bookmarked movies
 @Component({
   selector: 'app-movies-bookmarked-page',
   templateUrl: './movies-bookmarked-page.component.html',
-  styleUrls: ['./movies-bookmarked-page.component.scss']
+  styleUrls: ['./movies-bookmarked-page.component.scss'],
 })
 export class MoviesBookmarkedPageComponent implements OnInit {
-  noBookmarkedMoviesMessage: string = "You do not have bookmarked movies yet.";
+  noBookmarkedMoviesMessage: string = 'You do not have bookmarked movies yet.';
   movies: Movie[];
 
-  constructor(private movieService: MovieService) {
-   }
+  constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.movies = this.movieService.getBookmardedMovies();
+    this.initBookmarkedMovies();
   }
 
-  refreshMovies = () => {
-    this.movies = this.movieService.getBookmardedMovies();
-  }
+  // Initialize collection of bookmarked movies with movies from LocalStorage
+  initBookmarkedMovies = () => {
+    this.movies = this.movieService.getBookmarkedMovies();
+  };
 }
