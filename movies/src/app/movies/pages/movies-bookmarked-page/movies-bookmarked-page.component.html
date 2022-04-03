@@ -1,0 +1,8 @@
+<div class="message" *ngIf="movies.length === 0">
+    <label>{{noBookmarkedMoviesMessage}}</label>
+</div>
+
+<div class="movies">
+    <app-movie-card *ngFor="let movie of movies" [movie]="movie" (onUnbookmarked)="initBookmarkedMovies()">
+    </app-movie-card>
+</div>

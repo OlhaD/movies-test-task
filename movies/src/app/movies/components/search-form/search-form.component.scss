@@ -1,0 +1,16 @@
+$color: grey;
+
+.search-card {
+  .search-container {
+    display: flex;
+
+    .search {
+      cursor: pointer;
+    }
+
+    nb-icon {
+      font-size: 3rem;
+      color: $color;
+    }
+  }
+}

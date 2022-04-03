@@ -1,0 +1,28 @@
+$backgroundColor: #fff;
+$borderColor: #c2c2d6;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: inherit;
+  height: 100%;
+  background-color: $backgroundColor;
+  border: 1px $borderColor solid;
+  border-radius: 3px;
+  margin: 0 1rem 2rem 1rem;
+  padding: 0.5rem;
+
+  .poster {
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .info {
+    .rating {
+      font-weight: bold;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+$textColor: rgb(0,0,0);
+
+header {
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    .view-bookmarked {
+      a {
+        cursor: pointer;
+        text-decoration: none;
+        color: $textColor;
+
+        .bookmarked-icon {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+}

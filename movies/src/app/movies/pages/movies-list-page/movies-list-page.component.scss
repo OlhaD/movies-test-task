@@ -1,0 +1,13 @@
+.search-form {
+  margin: 0 auto;
+  width: 40rem;
+  max-width: 100%;
+}
+
+.movies {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  justify-content: space-between;
+  grid-gap: 20px;
+  min-height: 50vh;
+}
