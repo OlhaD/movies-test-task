@@ -7,6 +7,7 @@ import {
   NbCardModule,
   NbIconModule,
   NbSpinnerModule,
+  NbTooltipModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HttpClientModule } from '@angular/common/http';
@@ -42,6 +43,7 @@ import { MovieService } from './services/movie.service';
     NbCardModule,
     NbIconModule,
     NbEvaIconsModule,
+    NbTooltipModule
   ],
   exports: [MoviesComponent],
   providers: [MovieService],
