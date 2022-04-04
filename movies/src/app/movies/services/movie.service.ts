@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { Observable, forkJoin, of, from } from 'rxjs';
+import { concatMap, map, mergeMap } from 'rxjs/operators';
 import { Movie } from '../models/movie.model';
 
 // Service to operate data related to movies
@@ -19,46 +19,51 @@ export class MovieService {
   // Data sources used:
   //  - http://www.omdbapi.com/?apikey=[yourkey]&s=[title] - to get list of movies by title
   //  - http://www.omdbapi.com/?apikey=[yourkey]&i=[id] - to get rating by movie id
-  //  - localStorage - to get if movie is bookmarked
-  public getMovies(title: string): Observable<Movie[]> {
+  //  - LocalStorage - to get if movie is bookmarked. It contains list of bookmarked movies.
+  public getMovies(title: string): any {
     return this.http
       .get(`${this.configUrl}?apikey=${this.apiKey}&s=${title}`)
+
       .pipe(
+        // get search results - collection of movies
         map((response: any) => {
           if (response.Response === 'False') {
             throw new Error(response.Error);
           }
 
-          return this.getMoviesWithDetails(response.Search);
+          return response.Search;
+        }),
+        // create the collection of movies with all data.
+        // To keep an original order of movies (and to show results in the same order), we put http requests to get rating to an array.
+        // Then, we execute them at once.
+        mergeMap((movies: any) => {
+          let tasks: any = [];
+          const bookmardedMovies = this.getBookmarkedMovies();
+
+          movies.forEach((movieDto: any) => {
+            let movie$ = this.getMovieRating(movieDto.imdbID).pipe(
+              map((rating: string) => {
+                const isBookmarked = this.isMovieBookmarked(
+                  bookmardedMovies,
+                  movieDto.imdbID
+                );
+
+                return {
+                  id: movieDto.imdbID,
+                  title: movieDto.Title,
+                  year: movieDto.Year,
+                  poster: movieDto.Poster,
+                  rating: rating,
+                  isBookmarked: isBookmarked,
+                };
+              })
+            );
+            tasks.push(movie$);
+          });
+
+          return forkJoin(tasks);
         })
       );
-  }
-
-  // Get Movie with all details.
-  // Rating is taken from the API. Example: http://www.omdbapi.com/?apikey=[yourkey]&i=[id]
-  // "isBookmarked" is taken from LocalStorage. It contains list of bookmarked movies.
-  private getMoviesWithDetails(moviesResp: any): Movie[] {
-    let movies: Movie[] = [];
-    const bookmardedMovies = this.getBookmarkedMovies();
-
-    for (let movieDto of moviesResp) {
-      const isBookmarked = this.isMovieBookmarked(
-        bookmardedMovies,
-        movieDto.imdbID
-      );
-      this.getMovieRating(movieDto.imdbID).subscribe((rating) => {
-        movies.push({
-          id: movieDto.imdbID,
-          title: movieDto.Title,
-          year: movieDto.Year,
-          poster: movieDto.Poster,
-          rating: rating,
-          isBookmarked: isBookmarked,
-        });
-      });
-    }
-
-    return movies;
   }
 
   // Check if movie is bookmarked
