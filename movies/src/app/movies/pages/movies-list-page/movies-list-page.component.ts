@@ -9,6 +9,7 @@ import { MovieService } from '../../services/movie.service';
   styleUrls: ['./movies-list-page.component.scss'],
 })
 export class MoviesListPageComponent implements OnInit {
+  emptyMovieNameMessage = "Movie name is empty.";
   isLoading: boolean = true;
   movies: Movie[] = [];
   errorMessage: string;
@@ -22,6 +23,8 @@ export class MoviesListPageComponent implements OnInit {
   // Show list of movies which are search results
   showMovies = (searchText: string) => {
     if (!searchText) {
+      this.movies = [];
+      this.errorMessage = this.emptyMovieNameMessage;
       return;
     }
 
